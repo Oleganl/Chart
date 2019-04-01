@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Orgchart.Models;
+using Orgchart.Services;
 
 namespace Orgchart
 {
@@ -22,7 +23,8 @@ namespace Orgchart
         {
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<EmployeeContext>(options => options.UseSqlServer(connection));
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1); // ??
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddScoped<IEmployeeService, EmployeeService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
