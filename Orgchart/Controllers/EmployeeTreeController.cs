@@ -18,13 +18,13 @@ namespace Orgchart.Controllers
         {
             this.employeeService = employeeService;
         }
-
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var employees = employeeService.GetAllEmployees();
+            var employees = await employeeService.GetAllEmployees();
             return View(employees);
         }
-
+        [HttpGet]
         public IActionResult Add()
         {
             return View();
@@ -46,6 +46,13 @@ namespace Orgchart.Controllers
             }
            
             return View(employeeTree);
+        }
+
+        public async Task<IActionResult> Tree()
+        {
+            List<EmployeeTree> tree = new List<EmployeeTree>();
+            tree = await employeeService.GetAllEmployeeTree();
+            return View(tree);
         }
 
         [HttpPost]
