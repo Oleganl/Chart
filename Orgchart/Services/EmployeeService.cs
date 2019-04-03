@@ -15,7 +15,13 @@ namespace Orgchart.Services
         {
             this.context = context;
         }
-
+        public async Task<IEnumerable<EmployeeTree>> GetAllEmployees()
+        {
+            var employees = await context.Employees
+                .Include(x => x.Reporters)
+                .ToAsyncEnumerable().ToList();
+            return employees;
+        }
         public async Task<EmployeeTree> CreateEmployee(EmployeeTree employee)
         {
             context.Employees.Add(employee);
@@ -23,11 +29,24 @@ namespace Orgchart.Services
             return employee;
         }
 
-        public async Task<EmployeeTree> UpdateEmployee(int? employeeId)
+        public async Task<EmployeeTree> UpdateEmployee(EmployeeTree employee)
         {
-            var employee = await context.Employees.FirstOrDefaultAsync(x => x.Id == employeeId);
-            context.Employees.Update(employee);
-            await context.SaveChangesAsync();
+            try
+            {
+                context.Employees.Update(employee);
+                await context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            
+            return employee;
+        }
+
+        public async Task<EmployeeTree> GetEmployeeById(int? employeeId)
+        {
+            var employee = await context.Employees.FindAsync(employeeId);
             return employee;
         }
 
@@ -37,15 +56,6 @@ namespace Orgchart.Services
             context.Employees.Remove(employee);
             await context.SaveChangesAsync();
             return employee;
-        }
-
-        public async Task<IEnumerable<EmployeeTree>> GetAllEmployees()
-        {
-            var employees = await context.Employees
-                .Include(x => x.Reporters)
-                .ToAsyncEnumerable()
-                .Where(x => x.Manager == null).ToList();
-            return employees;           
         }
     }
 }

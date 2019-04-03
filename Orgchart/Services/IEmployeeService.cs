@@ -8,9 +8,10 @@ namespace Orgchart.Services
 {
     public interface IEmployeeService
     {
-        Task<EmployeeTree> CreateEmployee(EmployeeTree employee);
-        Task<EmployeeTree> UpdateEmployee(int? employeeId);
-        Task<EmployeeTree> DeleteEmployee(int? employeeId);
         Task<IEnumerable<EmployeeTree>> GetAllEmployees();
+        Task<EmployeeTree> CreateEmployee(EmployeeTree employee);
+        Task<EmployeeTree> UpdateEmployee(EmployeeTree employee);
+        Task<EmployeeTree> DeleteEmployee(int? employeeId);
+        Task<EmployeeTree> GetEmployeeById(int? employeeId);
     }
 }

@@ -1,0 +1,45 @@
+﻿@model Orgchart.Models.EmployeeTree
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("Edit", "EmployeeTree", FormMethod.Post))
+{
+<fieldset>
+    @Html.HiddenFor(e => e.Id)
+    <p>
+        @Html.DropDownListFor(model => model.ManagerId, ViewBag.Teams as SelectList)
+        <br />
+        @Html.EditorFor(e => e.Position)
+    </p>
+    <p>
+        @Html.LabelFor(e => e.FirstName, "First name")
+        <br />
+        @Html.EditorFor(e => e.FirstName)
+    </p>
+    <p>
+        @Html.LabelFor(e => e.SecondName, "Second name")
+        <br />
+        @Html.EditorFor(e => e.SecondName)
+    </p>
+    <p>
+        @Html.LabelFor(e => e.Position, "Position")
+        <br />
+        @Html.EditorFor(e => e.Position)
+    </p>
+    <p>
+        @Html.LabelFor(e => e.Phone, "Phone")
+        <br />
+        @Html.EditorFor(e => e.Phone)
+    </p>
+
+    <p><input type="submit" value="Save" /></p>
+</fieldset>
+}
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
