@@ -28,6 +28,6 @@ namespace Orgchart.Models
         public string Phone { get; set; }
 
         public virtual EmployeeTree Manager { get; set; }
-        public virtual ICollection<EmployeeTree> Reporters { get; set; }
+        public virtual List<EmployeeTree> Reporters { get; set; }
     }
 }

@@ -40,7 +40,7 @@ namespace Orgchart.Services
             {
                 throw ex;
             }
-            
+
             return employee;
         }
 
@@ -56,6 +56,35 @@ namespace Orgchart.Services
             context.Employees.Remove(employee);
             await context.SaveChangesAsync();
             return employee;
+        }
+
+        public EmployeeTree GetEmployeeParent()
+        {
+            var employee = context.Employees
+                .Where(x => x.ManagerId == null)
+                .FirstOrDefault();
+            GetEmployeeChildTree(employee);
+            return employee;
+        }
+
+        private void GetEmployeeChildTree(EmployeeTree employee)
+        {
+            var employeeReporters = context.Employees
+                .Where(x => x.ManagerId == employee.Id).ToList();
+
+            if (employeeReporters.Count() > 0)
+            {
+                foreach (var reportersNode in employeeReporters)
+                {
+                    if (employee.Reporters == null)
+                    {
+                        employee.Reporters = new List<EmployeeTree>();
+                        employee.Reporters.Add(reportersNode);
+                    }
+                    GetEmployeeChildTree(reportersNode);
+                    employee.Reporters.Add(reportersNode);             
+                }
+            }
         }
     }
 }

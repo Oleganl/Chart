@@ -13,5 +13,6 @@ namespace Orgchart.Services
         Task<EmployeeTree> UpdateEmployee(EmployeeTree employee);
         Task<EmployeeTree> DeleteEmployee(int? employeeId);
         Task<EmployeeTree> GetEmployeeById(int? employeeId);
+        EmployeeTree GetEmployeeParent();
     }
 }
